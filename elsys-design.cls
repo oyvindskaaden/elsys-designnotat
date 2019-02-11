@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \LoadClassWithOptions{article}
-\ProvidesClass{homework}[2014/12/16 Class file for homework assignments]
+\ProvidesClass{elsys-design}[2019-02-11 Class file for ELSYS designnotes assignments]
 
 % ----- Options ---------------------------------------------------------------
 \newcommand\@opanon{0}
@@ -14,8 +14,15 @@
 % ----- Packages --------------------------------------------------------------
 
 % Better fonts with accents
+\RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{babel}
+\setlength{\parindent}{0pt} 
+\setlength{\parskip}{2ex}
+
+% Pagesetup
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{a4wide}
 
 
 % Required for starred commands
@@ -35,6 +42,9 @@
 % Nice lists
 \RequirePackage{enumerate}
 \RequirePackage{enumitem}
+\RequirePackage[font=small,labelfont=bf]{caption}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
 
 % Nice images, figures, and listings
 \RequirePackage{graphicx}
@@ -55,103 +65,33 @@
 \RequirePackage[european, american currents, american voltages,siunitx]{circuitikz}
 \newcommand*{\eq}{=}
 
+
 % Conditionals
 \RequirePackage{ifthen}
 
 % Header & Page Setup
-\RequirePackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+%\RequirePackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
 \RequirePackage{fancyhdr}
 \ifthenelse{\equal{\@oplargemargins}{1}}{}{\RequirePackage{fullpage}}
 
 % Links
-\RequirePackage[hidelinks]{hyperref}
+\RequirePackage[hidelinks, pdftex, pdfborderstyle={/S/U/W 0}]{hyperref}
 
-% ----- Questions -------------------------------------------------------------
-\newcounter{questionCounter}
-\newcounter{partCounter}[questionCounter]
 
-% Prefix for questions
-\newcommand{\questiontype}[0]{Question}
+% ----- Titlevariables --------------------------------------------------------
+\newcommand\heading[1]{\renewcommand\@heading{#1}}
+\newcommand\@heading{}
 
-% Use this if your "written" questions are all under one section
-% For example, if the homework handout has Section 5: Written Questions
-% and all questions are 5.1, 5.2, 5.3, etc. set this to 5
-% Use for 0 no prefix. Redefine as needed per-question.
-\newcommand{\writtensection}[0]{0}
+\newcommand\version[1]{\renewcommand\@version{#1}}
+\newcommand\@version{}
 
-% Numbered question
-\providecommand{\question}{}
-\renewcommand{\question}[0]{%
-  % Emit \newpage if option `newpage` is present
-  \ifthenelse{\equal{\@opnewpage}{1}}{%
-    \newpage
-  }{}
 
-  % Wrap in minipage so that we don't get a line break enywhere in between
-  \begin{minipage}{\linewidth}%
-    \stepcounter{questionCounter}%
-      \vspace{.2in}%
-      \ifx\writtensection\undefined{}
-        \noindent{\bf \questiontype\ \arabic{questionCounter}.}%
-        \else
-          \ifnum\writtensection=0
-          \noindent{\bf \questiontype\ \arabic{questionCounter}.}%
-          \else
-          \noindent{\bf \questiontype\ \writtensection.\arabic{questionCounter}}%
-        \fi
-      \vspace{0.3em} \hrule \vspace{.1in}%
-  \end{minipage}
-}
 
-% Named question, takes one argument
-\WithSuffix\providecommand\question*{}
-\WithSuffix\renewcommand\question*[1]{%
-  % Emit \newpage if option `newpage` is present
-  \ifthenelse{\equal{\@opnewpage}{1}}{%
-    \newpage%
-  }{}%
-  % Wrap in minipage so that we don't get a line break enywhere in between
-  \begin{minipage}{\linewidth}%
-    \addtocounter{questionCounter}{1}%
-    \setcounter{partCounter}{0}%
-    \vspace{.2in}%
-    \noindent{\bf \arabic{questionCounter}. #1}%
-    \vspace{0.3em} \hrule \vspace{.1in}%
-  \end{minipage}
-}
+% ----- Reference commands --------------------------------------------------------
 
-% Override normal section defintions
-\renewcommand{\section}[0]{\question}
-\WithSuffix\newcommand\section*[1]{\question*{#1}}
+\newcommand{\figref}[1]{Figur \ref{#1}}
+%\newcommand{\eqref}[1]{(\ref{#1})}
 
-% ----- Question Parts --------------------------------------------------------
-
-\newenvironment{alphaparts}[0]{%
-  \begin{enumerate}[label=\textbf{(\alph*)}]%
-}{\end{enumerate}}
-
-\newenvironment{arabicparts}[0]{%
-  \begin{enumerate}[label=\textbf{\arabic{questionCounter}.\arabic*})]%
-}{\end{enumerate}}
-
-\newcommand{\questionpart}[0]{\item}
-
-% ----- Induction Environment -------------------------------------------------
-
-\newenvironment{induction}[0]{%
-  \begin{description}
-}{\end{description}}
-
-\newcommand{\basecase}{\item[Base Case]\mbox{}\\}
-\newcommand{\indhyp}{\item[Induction Hypothesis]\mbox{}\\}
-\newcommand{\indstep}{\item[Induction Step]\mbox{}\\}
-
-% ----- Answer Box ------------------------------------------------------------
-
-\newcommand{\answerbox}[1]{%
-\begin{framed}
-\vspace{#1}
-\end{framed}}
 
 % ----- Page Setup ------------------------------------------------------------
 
@@ -162,54 +102,52 @@
 \def\indented#1{\list{}{}\item[]}
 \let\indented=\endlist
 
+% ------- Table of Contents -------
+
+\newcommand{\toc}{
+  \setlength{\parskip}{0ex}
+  \renewcommand{\baselinestretch}{0.1}\normalsize
+  \tableofcontents
+  \renewcommand{\baselinestretch}{1.00}\normalsize
+  \setlength{\parskip}{2ex}
+  \rule{\textwidth}{1pt}
+} 
+
 % ----- Title & Header --------------------------------------------------------
 \pagestyle{empty}
-\pagestyle{fancy}
+\pagestyle{plain}
 
-%\if\@opanon%
-\ifthenelse{\equal{\@opanon}{0}}{%
-  \renewcommand{\maketitle}[0]{%
-    % Setup header
-    \setlength{\headheight}{15.2pt}
-    \setlength{\headsep}{0.2in}
-    \lhead{\hwclass{} \hwlecture\hwsection}%
-    \chead{\hwname{} (\hwemail)}%
-    \rhead{\hwtype{} \hwnum}%
+\renewcommand{\maketitle}[0]{%
+  \begin{minipage}[c]{0.15\textwidth}
+  \includegraphics[width=2.0cm]{elsys_pos_staaende_ntnu}  
+  \end{minipage}
+  \begin{minipage}[c]{0.85\textwidth}
 
-    % Setup hrule in header
-    \renewcommand{\headrulewidth}{0pt}
-    \headrule{}
-
-    % Don't put header on first page
-    \thispagestyle{plain}
-
-    \begin{center}
-      {\Large \hwclass{} \hwtype{} \hwnum}
-
-      \hwname{} (\hwemail)
-
-      \today
-    \end{center}
-    \renewcommand{\headrulewidth}{0.4pt}
-  }
-
-}%
-{%
-  \renewcommand{\maketitle}[0]{%
-    % Make all pages plain
-    \pagestyle{plain}
-
-    % Put header on it's own page
-    \begin{center}
-      {\Large \hwclass{} \hwtype{} \hwnum}
-
-      \hwname{} (\hwemail)
-
-      \today
-    \end{center}
-    \renewcommand{\headrulewidth}{0.4pt}
-    \newpage
-  }
+  \renewcommand{\arraystretch}{1.7}
+  \large 
+  \begin{tabularx}{\textwidth}{|X|X|}
+  \hline
+  \multicolumn{2}{|l|}{} \\
+  \multicolumn{2}{|l|}{\huge \textbf{\@heading}} \\
+  \multicolumn{2}{|l|}{}  \\
+  \hline
+  \multicolumn{2}{|l|}{Tittel: 
+  %Skriv inn tittel her:------------------------------------------
+  \@title
+  } \\
+  \hline
+  \multicolumn{2}{|l|}{Forfattere: 
+  %Skriv inn forfattere her:--------------------------------------
+  \@author
+  } \\
+  \hline
+  %Skriv inn versjon og dato her her:-----------------------------
+  Versjon: \@version & Dato: \@date
+  \\
+  \hline 
+  \end{tabularx}
+  \end{minipage}
+  \normalsize
 }
 
 % ----- For usage with pandoc converted documents -----------------------------
