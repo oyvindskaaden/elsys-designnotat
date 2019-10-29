@@ -17,6 +17,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{babel}
+\RequirePackage[fixlanguage]{babelbib}
 \setlength{\parindent}{0pt} 
 \setlength{\parskip}{2ex}
 
@@ -24,6 +25,8 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{a4wide}
 
+% Mikrotypografiske optimeringer
+\RequirePackage[babel=true]{microtype}
 
 % Required for starred commands
 \RequirePackage{suffix}
@@ -35,9 +38,17 @@
 \RequirePackage{amssymb}
 \RequirePackage{mathrsfs}
 \RequirePackage{centernot}
-\RequirePackage{siunitx}
 \RequirePackage{textcomp}
 \RequirePackage{gensymb}
+
+\RequirePackage{siunitx}
+\sisetup{
+exponent-product = \cdot,
+output-decimal-marker  =  {,}, % Pass på å endre desimalskilletegnet til punktum om du skriver på engelsk!
+separate-uncertainty = true,
+per-mode = symbol,
+group-digits = false,
+}
 
 % Nice lists
 \RequirePackage{enumerate}
@@ -47,12 +58,30 @@
 \RequirePackage{multirow}
 
 % Nice images, figures, and listings
-\RequirePackage{graphicx}
+% Figurer og tabeller
+\RequirePackage{graphicx} % Denne pakken er standard for å kunne laste inn figurfiler med ulike formater
+% Løsne opp på de alt for strenge standardinstillingene for plassering av figurer og tabeller (floats) i LaTeX-kjernen
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{10}
+
+\RequirePackage{flafter} % For å plassere floats i PDFen første sted LaTeX tillater etter det punktet de er definert i TeX-filen. Om du definerer figuren i TeX-filen rett etter at du refererer til den for første gang vil denne pakken sørge for at de fleste floats havner på greie steder
+\RequirePackage{booktabs} % Denne pakken gir tilgang på endel ekstra kommandoer som legger til rette for god skikk og bruk i tabellformatering.
+\RequirePackage{multirow}
+\RequirePackage[font=small,labelfont=bf]{caption} % Justering av LaTeX standarder for figurtekst og tabelltekst.
 \RequirePackage{grffile}
 \RequirePackage[all]{xy}
 \RequirePackage{wrapfig}
 \RequirePackage{fancyvrb}
 \RequirePackage{listings}
+\RequirePackage{listingsutf8}
+\RequirePackage{subfig}
+\RequirePackage{mathtools}% automatically loads amsmath
+\RequirePackage{lipsum}
 
 % Drawing
 \RequirePackage{pgf}
@@ -63,6 +92,21 @@
 
 % Electronic drawing
 \RequirePackage[european, american currents, american voltages,siunitx]{circuitikz}
+\tikzset{opampdownlbl/.style={
+    below,
+    draw=none,
+    append after command={
+      (\tikzlastnode.north) edge ([shift={(-5pt,0pt)}]\tikzlastnode.north)
+        edge ([shift={(+5 pt,0 pt)}]\tikzlastnode.north)
+    }},
+  opampuplbl/.style ={
+    above,
+    draw=none,
+    append after command={
+      (\tikzlastnode.south) edge ([shift={(-5pt,0pt)}]\tikzlastnode.south)
+        edge ([shift={(+5pt,0pt)}]\tikzlastnode.south)
+    }}
+}
 \newcommand*{\eq}{=}
 
 
@@ -75,7 +119,16 @@
 \ifthenelse{\equal{\@oplargemargins}{1}}{}{\RequirePackage{fullpage}}
 
 % Links
-\RequirePackage[hidelinks, pdftex, pdfborderstyle={/S/U/W 0}]{hyperref}
+\RequirePackage[colorlinks=true,allcolors=blue, hidelinks, pdftex, pdfborderstyle={/S/U/W 0}]{hyperref}
+% Noen av navnene for autoreferanser mangler på norsk, så vi ordner opp i det.
+\addto\extrasnorsk{%
+\def\figureautorefname{figur}%
+\def\tableautorefname{tabell}%
+\def\sectionautorefname{avsnitt}%
+\def\subsectionautorefname{underavsnitt}%
+}
+% Vi endrer fonten som brukes for URLer til den vanlige tekstfonten.
+\urlstyle{same}
 
 
 % ----- Titlevariables --------------------------------------------------------
