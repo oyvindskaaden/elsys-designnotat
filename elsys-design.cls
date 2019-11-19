@@ -126,6 +126,7 @@ group-digits = false,
 \def\tableautorefname{tabell}%
 \def\sectionautorefname{avsnitt}%
 \def\subsectionautorefname{underavsnitt}%
+\def\appendixautorefname{vedlegg}
 }
 % Vi endrer fonten som brukes for URLer til den vanlige tekstfonten.
 \urlstyle{same}
