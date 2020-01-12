@@ -25,6 +25,11 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{a4wide}
 
+% Internasjonal behandling av anførselstegn
+\RequirePackage{csquotes}
+
+
+
 % Mikrotypografiske optimeringer
 \RequirePackage[babel=true]{microtype}
 
@@ -91,7 +96,7 @@ group-digits = false,
 \usetikzlibrary{arrows}
 
 % Electronic drawing
-\RequirePackage[european, american currents, american voltages,siunitx]{circuitikz}
+\RequirePackage[european, american currents, american voltages,siunitx, RPvoltages]{circuitikz}
 \tikzset{opampdownlbl/.style={
     below,
     draw=none,
@@ -128,9 +133,13 @@ group-digits = false,
 \def\subsectionautorefname{underavsnitt}%
 \def\appendixautorefname{vedlegg}
 }
-% Vi endrer fonten som brukes for URLer til den vanlige tekstfonten.
-\urlstyle{same}
 
+
+% \usepackage[backend=biber,style=numeric,sortcites,firstinits=true]{biblatex} - Bestemmer hvordan referansene og refereanselista i tex-dokument skal se ut.
+%\usepackage[backend=biber,style=numeric,sortcites,firstinits=true]{biblatex}
+% Velger hvilken stil url-adresser skrives, f.eks sf
+%\urlstyle{sf}
+\urlstyle{same}
 
 % ----- Titlevariables --------------------------------------------------------
 \newcommand\heading[1]{\renewcommand\@heading{#1}}
