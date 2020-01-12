@@ -1,5 +1,7 @@
 # Elsys Designnotat - Latex class
 
+Designnotatklasse for designprosjekter i elsys på NTNU. 
+
 ## Hva?
 Dette er en documentklasse (document class), som betyr at du bruker `\documentclass{elsys-designnotat}` i starten av LaTeX-documentet ditt. Klassen innfører dokumentstilen for hele notatet, og legger til alle pakker som kan bli brukt.
 
@@ -36,6 +38,7 @@ Klassen produseres dokumenter som følgende.
 
 ## Inkluderte pakker
 
+For inkluderte pakker, er det bare å se hvilke pakker som er lagt til av `\RequirePackage{}` i [elsys-design.cls](elsys-design.cls).
 
 
 ## Lisens
