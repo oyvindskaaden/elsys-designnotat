@@ -182,7 +182,7 @@ group-digits = false,
 
 \renewcommand{\maketitle}[0]{%
   \begin{minipage}[c]{0.15\textwidth}
-  \includegraphics[width=2.0cm]{elsys_pos_staaende_ntnu}  
+  \includegraphics[width=2.0cm]{elsys-design}  
   \end{minipage}
   \begin{minipage}[c]{0.85\textwidth}
 
