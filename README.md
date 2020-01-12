@@ -1,7 +1,7 @@
-# LaTeX Homework Class
+# Elsys Designnotat - Latex class
 
-## What
-This is a LaTeX document class. That means you use it with `\documentclass{homework}` at the top of the document. It provides a document layout and some helper commands that make working with questions easy.
+## Hva?
+Dette er en documentklasse (document class), som betyr at du bruker `\documentclass{elsys-designnotat}` i starten av $\LaTeX$-documentet ditt. Klassen innfører dokumentstilen for hele notatet, og legger til alle pakker som kan bli brukt.
 
 ## Installation
 Certainly the easiest way to start using this template is to copy the .cls file to your computer in the same directory as your LaTeX project directory.
